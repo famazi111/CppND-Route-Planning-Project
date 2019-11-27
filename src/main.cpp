@@ -27,6 +27,24 @@ static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
     return std::move(contents);
 }
 
+void getInput(float &input, int min, int max, std::string label)
+{
+    for (;;)
+    {
+        std::cout << "Enter " << label << " Value [0-100]: ";
+        if (std::cin >> input && input >= min && input <= max)
+        {
+            break;
+        }
+        else
+        {
+            std::cout << "Please enter a valid number for " << label << " between " << min << " and " << max << std::endl;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+}
+
 int main(int argc, const char **argv)
 {    
     std::string osm_data_file = "";
@@ -55,6 +73,12 @@ int main(int argc, const char **argv)
     // TODO 1: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
     // user input for these values using std::cin. Pass the user input to the
     // RoutePlanner object below in place of 10, 10, 90, 90.
+    float start_x, start_y, end_x, end_y;
+
+    getInput(start_x, 0, 100, "start x");
+    getInput(start_y, 0, 100, "start y");
+    getInput(end_x, 0, 100, "end x");
+    getInput(end_y, 0, 100, "end y");
 
     // Build Model.
     RouteModel model{osm_data};
